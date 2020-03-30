@@ -84,7 +84,12 @@ const int CWindow::execute(void)
                 case 5: //r
                     key_event.key.keysym.sym = MYKEY_PAGEDOWN;
                     break;
-                
+                case 14://select
+                    key_event.key.keysym.sym = MYKEY_SELECT;
+                    break;
+                case 15://start
+                    key_event.key.keysym.sym = MYKEY_TRANSFER;
+                    break; 
                 default:
                     break;
                 }

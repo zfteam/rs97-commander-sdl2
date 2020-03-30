@@ -33,7 +33,8 @@
 #define MS_PER_FRAME 33
 
 #ifndef PATH_DEFAULT
-#define PATH_DEFAULT getenv("PWD")
+// #define PATH_DEFAULT getenv("PWD")
+#define PATH_DEFAULT getenv("HOME")
 #endif
 
 #ifndef PATH_DEFAULT_RIGHT
