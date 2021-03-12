@@ -49,10 +49,36 @@ const int CWindow::execute(void)
             {
                 return m_retVal;
             }
+            else if(l_event.type==SDL_JOYHATMOTION){
+                printf("hatmotion:%d\n",l_event.jhat.value); 
+                SDL_Event key_event;
+                switch (l_event.jhat.value){
+                    case SDL_HAT_UP:
+                        key_event.key.keysym.sym=MYKEY_UP;
+                        l_render = this->keyPress(key_event);
+                    break;
+                    case SDL_HAT_DOWN:
+                        key_event.key.keysym.sym=MYKEY_DOWN;
+                        l_render = this->keyPress(key_event);
+                    break;
+                    case SDL_HAT_LEFT:
+                        key_event.key.keysym.sym=MYKEY_LEFT;
+                        l_render = this->keyPress(key_event);
+                    break;
+                    case SDL_HAT_RIGHT:
+                        key_event.key.keysym.sym=MYKEY_RIGHT;
+                        l_render = this->keyPress(key_event);
+                    break;
+                    default:
+                    break;
+                }
+                if (m_retVal)
+                    l_loop = false;
+            }
             else if(l_event.type == SDL_JOYBUTTONDOWN)
             {
 #ifdef ODROID_GO_ADVANCE
-                // printf("key:%d\n",l_event.jbutton.button);
+                printf("jbutton:%d\n",l_event.jbutton.button);
                 std::map<std::string,int> keyMap;
                 keyMap[Globals::g_iniConfig["key"]["up"]]= MYKEY_UP;
                 keyMap[Globals::g_iniConfig["key"]["down"]]= MYKEY_DOWN;

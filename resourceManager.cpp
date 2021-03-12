@@ -50,7 +50,7 @@ CResourceManager::CResourceManager(void) :
     m_surfaces[T_SURFACE_CURSOR1] = SDL_utils::createImage(screen.w / 2 * screen.ppu_x, LINE_HEIGHT * screen.ppu_y, SDL_MapRGB(Globals::g_screen->format, COLOR_CURSOR_1));
     m_surfaces[T_SURFACE_CURSOR2] = SDL_utils::createImage(screen.w / 2 * screen.ppu_x, LINE_HEIGHT * screen.ppu_y, SDL_MapRGB(Globals::g_screen->format, COLOR_CURSOR_2));
     // Load font
-    m_font = SDL_utils::loadFont(RES_DIR "wy_scorpio.ttf", 8*screen.ppu_x);
+    m_font = SDL_utils::loadFont(RES_DIR "wy_scorpio.ttf", 8);
 }
 
 void CResourceManager::sdlCleanup(void)
