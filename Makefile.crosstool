@@ -18,5 +18,5 @@ all:$(OBJS)
 	$(CC) -std=c++11 -DRESDIR="\"$(RESDIR)\"" -DODROID_GO_ADVANCE  -c $< -o $@  $(INCLUDE) 
 
 clean:
-	rm $(OBJS) $(target) -f
+	rm -f $(OBJS) $(target) 
 

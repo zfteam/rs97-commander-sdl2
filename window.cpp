@@ -2,6 +2,8 @@
 #include "window.h"
 #include "def.h"
 #include "sdlutils.h"
+#include <string> 
+#include <map>
 
 #define KEYHOLD_TIMER_FIRST   6
 #define KEYHOLD_TIMER         2
@@ -51,48 +53,27 @@ const int CWindow::execute(void)
             {
 #ifdef ODROID_GO_ADVANCE
                 // printf("key:%d\n",l_event.jbutton.button);
+                std::map<std::string,int> keyMap;
+                keyMap[Globals::g_iniConfig["key"]["up"]]= MYKEY_UP;
+                keyMap[Globals::g_iniConfig["key"]["down"]]= MYKEY_DOWN;
+                keyMap[Globals::g_iniConfig["key"]["left"]]= MYKEY_LEFT;
+                keyMap[Globals::g_iniConfig["key"]["right"]]= MYKEY_RIGHT;
+                keyMap[Globals::g_iniConfig["key"]["a"]]= MYKEY_PARENT;
+                keyMap[Globals::g_iniConfig["key"]["b"]]= MYKEY_OPEN;
+                keyMap[Globals::g_iniConfig["key"]["x"]]= MYKEY_OPERATION;
+                keyMap[Globals::g_iniConfig["key"]["y"]]= MYKEY_SYSTEM;
+                keyMap[Globals::g_iniConfig["key"]["l"]]= MYKEY_PAGEUP;
+                keyMap[Globals::g_iniConfig["key"]["r"]]= MYKEY_PAGEDOWN;
+                keyMap[Globals::g_iniConfig["key"]["select"]]= MYKEY_SELECT;
+                keyMap[Globals::g_iniConfig["key"]["start"]]= MYKEY_TRANSFER;
+
                 SDL_Event key_event;
-                switch (l_event.jbutton.button)
-                {
-                case 6: //up
-                    key_event.key.keysym.sym = MYKEY_UP;
-                    break;
-                case 7: //down
-                    key_event.key.keysym.sym = MYKEY_DOWN;
-                    break;
-                case 8: //left
-                    key_event.key.keysym.sym = MYKEY_LEFT;
-                    break;
-                case 9: //right
-                    key_event.key.keysym.sym = MYKEY_RIGHT;
-                    break;
-                case 0: //a
-                    key_event.key.keysym.sym = MYKEY_PARENT;
-                    break;
-                case 1: //b
-                    key_event.key.keysym.sym = MYKEY_OPEN;
-                    break;
-                case 2: //x
-                    key_event.key.keysym.sym = MYKEY_OPERATION;
-                    break;
-                case 3: //y
-                    key_event.key.keysym.sym = MYKEY_SYSTEM;
-                    break;
-                case 4: //l
-                    key_event.key.keysym.sym = MYKEY_PAGEUP;
-                    break;
-                case 5: //r
-                    key_event.key.keysym.sym = MYKEY_PAGEDOWN;
-                    break;
-                case 14://select
-                    key_event.key.keysym.sym = MYKEY_SELECT;
-                    break;
-                case 15://start
-                    key_event.key.keysym.sym = MYKEY_TRANSFER;
-                    break; 
-                default:
-                    break;
+                std::string actionKey= std::to_string(l_event.jbutton.button);
+                std::map<std::string, int>::iterator iter = keyMap.find(actionKey);
+                if (iter != keyMap.end()){
+                    key_event.key.keysym.sym = iter->second;
                 }
+
                 l_render = this->keyPress(key_event);
                 if (m_retVal)
                     l_loop = false;

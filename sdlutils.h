@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include "window.h"
+#include "ini.h"
 
 namespace SDL_utils
 {
@@ -69,6 +70,8 @@ namespace Globals
     extern const SDL_Color g_colorTextSelected;
     // The list of opened windows
     extern std::vector<CWindow *> g_windows;
+    //ini file config
+    extern mINI::INIStructure g_iniConfig;
 }
 
 #endif

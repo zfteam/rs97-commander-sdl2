@@ -20,7 +20,10 @@ const SDL_Color Globals::g_colorTextNormal = {COLOR_TEXT_NORMAL};
 const SDL_Color Globals::g_colorTextTitle = {COLOR_TEXT_TITLE};
 const SDL_Color Globals::g_colorTextDir = {COLOR_TEXT_DIR};
 const SDL_Color Globals::g_colorTextSelected = {COLOR_TEXT_SELECTED};
+mINI::INIStructure Globals::g_iniConfig;
+
 std::vector<CWindow *> Globals::g_windows;
+
 
 namespace {
 
@@ -45,6 +48,11 @@ int main(int argc, char** argv)
         char l_s[]="SDL_NOMOUSE=1";
         putenv(l_s);
     }
+
+    //read config
+    mINI::INIFile file(RES_DIR  "config.ini");
+    file.read(Globals::g_iniConfig);
+
 
     // Init SDL
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
