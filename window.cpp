@@ -50,7 +50,7 @@ const int CWindow::execute(void)
                 return m_retVal;
             }
             else if(l_event.type==SDL_JOYHATMOTION){
-                printf("hatmotion:%d\n",l_event.jhat.value); 
+                // printf("hatmotion:%d\n",l_event.jhat.value); 
                 SDL_Event key_event;
                 switch (l_event.jhat.value){
                     case SDL_HAT_UP:
@@ -78,7 +78,7 @@ const int CWindow::execute(void)
             else if(l_event.type == SDL_JOYBUTTONDOWN)
             {
 #ifdef ODROID_GO_ADVANCE
-                printf("jbutton:%d\n",l_event.jbutton.button);
+                // printf("jbutton:%d\n",l_event.jbutton.button);
                 std::map<std::string,int> keyMap;
                 keyMap[Globals::g_iniConfig["key"]["up"]]= MYKEY_UP;
                 keyMap[Globals::g_iniConfig["key"]["down"]]= MYKEY_DOWN;
