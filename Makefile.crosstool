@@ -1,0 +1,22 @@
+CC=arm-cortex_a15-linux-gnueabihf-g++
+target = DinguxCommander
+
+RESDIR:=res
+
+PREFIX=/Volumes/linuxdisk/x-tools/arm-cortex_a15-linux-gnueabihf/arm-cortex_a15-linux-gnueabihf/sysroot/usr
+
+SRCS=$(wildcard ./*.cpp)
+OBJS=$(patsubst %cpp,%o,$(SRCS))
+
+INCLUDE =  $(shell $(PREFIX)/bin/sdl2-config --cflags)
+LIB = $(shell $(PREFIX)/bin/sdl2-config --libs) -lSDL2_image -lSDL2_ttf -lSDL2_gfx
+
+all:$(OBJS)
+	$(CC) $(OBJS) -o $(target) $(LIB)
+
+%.o:%.cpp
+	$(CC) -std=c++11 -DRESDIR="\"$(RESDIR)\"" -DODROID_GO_ADVANCE  -c $< -o $@  $(INCLUDE) 
+
+clean:
+	rm $(OBJS) $(target) -f
+

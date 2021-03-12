@@ -15,6 +15,10 @@
 #define RES_DIR "res/"
 #endif
 
+#ifndef AUTOSCALE
+#define AUTOSCALE 1
+#endif
+
 #ifndef SCREEN_WIDTH
 // #define SCREEN_WIDTH 320
 #define SCREEN_WIDTH 480

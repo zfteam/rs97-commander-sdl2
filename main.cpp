@@ -76,33 +76,62 @@ int main(int argc, char** argv)
     SDL_ShowCursor(SDL_DISABLE);
 
     // Screen
-// 	const auto &best = *SDL_GetVideoInfo();
-// 	fprintf(stderr, "Best video mode reported as: %dx%d bpp=%d hw_available=%u\n",
-// 	    best.current_w, best.current_h, best.vfmt->BitsPerPixel, best.hw_available);
+	//const auto &best = *SDL_GetVideoInfo();
+	//fprintf(stderr, "Best video mode reported as: %dx%d bpp=%d hw_available=%u\n",
+	    //best.current_w, best.current_h, best.vfmt->BitsPerPixel, best.hw_available);
+    SDL_Rect best{0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
+    
+    int display_count = SDL_GetNumVideoDisplays();
+
+    SDL_Log("Number of displays: %i", display_count);
+
+    for (int display_index = 0; display_index <= display_count; display_index++)
+    {
+        SDL_Log("Display %i:", display_index);
+
+        int modes_count = SDL_GetNumDisplayModes(display_index);
+
+        for (int mode_index = 0; mode_index <= modes_count; mode_index++)
+        {
+            SDL_DisplayMode mode = {SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, 0};
+
+            if (SDL_GetDisplayMode(display_index, mode_index, &mode) == 0)
+            {
+                SDL_Log(" %i bpp\t%i x %i @ %iHz",
+                        SDL_BITSPERPIXEL(mode.format), mode.w, mode.h, mode.refresh_rate);
+
+                if(display_index==0){
+                    best.w = mode.w;
+                    best.h = mode.h;
+                }
+            }
+        }
+    }
 
 //     // Detect non 320x240/480 screens.
-// #if AUTOSCALE == 1
-//     if (best.current_w >= SCREEN_WIDTH * 2)
-//     {
-//         // E.g. 640x480. Upscale to the smaller of the two.
-//         double scale = std::min(
-//             best.current_w / static_cast<double>(SCREEN_WIDTH),
-//             best.current_h / static_cast<double>(SCREEN_HEIGHT));
-//         scale = std::min(scale, 2.0);
-//         screen.ppu_x = screen.ppu_y = scale;
-//         screen.w = best.current_w / scale;
-//         screen.h = best.current_h / scale;
-//         screen.actual_w = best.current_w;
-//         screen.actual_h = best.current_h;
-//     }
-//     else if (best.current_w != SCREEN_WIDTH)
-//     {
-//         // E.g. RS07 with 480x272 screen.
-//         screen.actual_w = screen.w = best.current_w;
-//         screen.actual_h = screen.h = best.current_h;
-//         screen.ppu_x = screen.ppu_y = 1;
-//     }
-// #endif
+#if AUTOSCALE == 1
+// 
+    if (best.w >= SCREEN_WIDTH * 2)
+    {
+        // E.g. 640x480. Upscale to the smaller of the two.
+        double scale = std::min(
+            best.w / static_cast<double>(SCREEN_WIDTH),
+            best.h / static_cast<double>(SCREEN_HEIGHT));
+        scale = std::min(scale, 2.0);
+        screen.ppu_x = screen.ppu_y = scale;
+        screen.w = best.w / scale;
+        screen.h = best.h / scale;
+        screen.actual_w = best.w;
+        screen.actual_h = best.h;
+    }
+    else if (best.w != SCREEN_WIDTH)
+    {
+        // E.g. RS07 with 480x272 screen.
+        screen.actual_w = screen.w = best.w;
+        screen.actual_h = screen.h = best.h;
+        screen.ppu_x = screen.ppu_y = 1;
+    }
+#endif
     Globals::g_sdlwindow = SDL_CreateWindow("Commander",  
                               SDL_WINDOWPOS_UNDEFINED,  
                               SDL_WINDOWPOS_UNDEFINED,  
